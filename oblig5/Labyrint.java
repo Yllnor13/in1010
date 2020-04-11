@@ -3,17 +3,18 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Labyrint {
+    private static int rader;       //rader
+    private static int kolonner;    //kolonner
+    private static Rute[][] ruter;  //rute kartet
+
+
     public Labyrint(){
 
     }
 
-    public static void lesFraFil(File tall){
+    public static Labyrint lesFraFil(File tall){
         Scanner lesfil = null;
-        try{
-            lesfil = Scanner(tall);
-        }
-        catch(FileNotFoundException e){
-            System.out.println("ingen fil funnet");
-        }
+        lesfil = new Scanner(tall);
+        
     }
 }
