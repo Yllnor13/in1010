@@ -19,12 +19,8 @@ public abstract class Resept{
         return Id;
     }
 
-    public String hentLegemiddel(){
-        return leg.hentNavn();
-    }
-
-    public int hentLegemiddelID(){
-        return leg.hentId();
+    public Legemiddel hentLegemiddel(){
+        return leg;
     }
 
     public String hentLege(){

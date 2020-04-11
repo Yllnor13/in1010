@@ -6,18 +6,12 @@ public class LegeSystem{
     static Lenkeliste<Pasient> pasienter = new Lenkeliste<Pasient>();
     static Lenkeliste<Legemiddel> legemidler = new Lenkeliste<Legemiddel>();
     static Lenkeliste<Resept> resepter = new Lenkeliste<Resept>();
-    
+
 
     public static void main (String[] args){ //main kode
-        File tekst = new File("innlesing.txt");
+        File tekst = new File("bigfil.txt");
         les(tekst);
         meny();
-    }
-
-    public static void sjekkId(){ //ble brukt for aa teste noe tidligere
-        for(Legemiddel i : legemidler){
-            System.out.println(i.hentId());
-        }
     }
 
     public static void les(File fil){ // her er den virkelige les filen
@@ -39,6 +33,7 @@ public class LegeSystem{
                         break;
                     }
                     String[] info = lest.split(","); //ny string med info til objekter
+                    long infolong = Long.parseLong(info[1]);
                     Pasient pasient = new Pasient(info[0],info[1]); //lag en ny pasient med det som er i foerste og andre plass i info lista
                     pasienter.leggTil(pasient); //legger pasient til lista
                 }
@@ -57,12 +52,12 @@ public class LegeSystem{
                         Narkotisk narkotisk = new Narkotisk(info[0], pris, virkestoff, styrke); //setter alt sammen og lager en narkotisk legemiddel
                         legemidler.leggTil(narkotisk); //setter den i lista
                     }
-                    if(info[1].equals("vanedannende")){ //hvis andre posisjon i info er teksten vanedannede, saa skal vi lage en vanedannede objekt
+                    if(info[1].equals("vanedannende")){ //hvis andre posisjon i info er teksten Vanedannende, saa skal vi lage en Vanedannende objekt
                         int styrke = Integer.parseInt(info[4]); //gjoer samme som over
                         Double pris = Double.parseDouble(info[2]);
                         Double virkestoff = Double.parseDouble(info[3]);
-                        Vanedannede vanedannede = new Vanedannede(info[0], pris, virkestoff, styrke);
-                        legemidler.leggTil(vanedannede);
+                        Vanedannende Vanedannende = new Vanedannende(info[0], pris, virkestoff, styrke);
+                        legemidler.leggTil(Vanedannende);
                     }
                     if(info[1].equals("vanlig")){ //sjekker om andre plass i lista er vanlig
                         Double pris = Double.parseDouble(info[2]);
@@ -99,65 +94,80 @@ public class LegeSystem{
                     Lege nyleg = null; //lager et tomt lege
                     int middelId = Integer.parseInt(info[0]); //lagrer id til middelet som middelId
                     int pasId = Integer.parseInt(info[2]); //lagrer pasienten sin Id som pasId
-                    
+                    boolean gyldigLinjepas = false;
+                    boolean gyldigLinjeleg = false;
+                    boolean gyldigLinjemid = false;
+
                     for(Legemiddel i : legemidler){ //gar gjennom lista med legemidler
                         if(i.hentId() == middelId){ //ser for den som har samme id som middel id
-                            nymid = i; //gjoer nymid om til legemiddelet i resepten
+                            nymid = i;
+                            gyldigLinjemid = true;
+                            break; //gjoer nymid om til legemiddelet i resepten
                         }
+                        gyldigLinjemid = false;
                     }
                     for(Lege i : leger){ //gaar gjennom lista med leger
                         if(i.hentNavn().equals(info[1])){ //ser etter en lege med samme navn som paa resepten
-                            nyleg = i; //gjoer nyleg om til legen med samme navn som i resepten
+                            nyleg = i;
+                            gyldigLinjeleg = true; //gjoer nyleg om til legen med samme navn som i resepten
+                            break;
                         }
+                        gyldigLinjeleg = false;
                     }
                     for(Pasient i : pasienter){ //gaar gjennom pasient lista
                         if(i.hentId() == pasId){ //hvis pasienten i resepten ahr samme id som pasienten funnet
                             nypas = i; //gjoer nypas om til pasienten med samme id som i resepten
+                            gyldigLinjepas = true;
+                            break;
                         }
+                        gyldigLinjepas = false;
                     }//her skal reseptene bli laget
-                    if(info[3].equals("hvit")){ //om  fjerde posisjon i info lista er teksten hvit
-                        int reit = Integer.parseInt(info[4]); //gjoer reit om til det som er i femte posisjon
-                        try{
-                            Resept resept = nyleg.skrivHvitResept(nymid, nypas, reit); //lage resepten med nypas, nymid og reit
-                            resepter.leggTil(resept); //legge til resepten i resept lista
-                            nypas.leggTilResept(resept); //legge til resepten til pasientens egen reseptliste
-                        }
-                        catch(UlovligUtskrift e){ //om utskriften er ikke tillat, ta denne erroren
-                            System.out.println(e);
+                    if(gyldigLinjepas == true && gyldigLinjemid == true && gyldigLinjeleg == true) {
+                      if(info[3].equals("hvit")){ //om  fjerde posisjon i info lista er teksten hvit
+                          int reit = Integer.parseInt(info[4]); //gjoer reit om til det som er i femte posisjon
+                          try{
+                              Resept resept = nyleg.skrivHvitResept(nymid, nypas, reit); //lage resepten med nypas, nymid og reit
+                              resepter.leggTil(resept); //legge til resepten i resept lista
+                              nypas.leggTilResept(resept); //legge til resepten til pasientens egen reseptliste
+                          }
+                          catch(UlovligUtskrift e){ //om utskriften er ikke tillat, ta denne erroren
+                              System.out.println(e);
+                          }
+                      }
+                      else if(info[3].equals("blaa")){ //gjoer det samme som med hvit resept
+                          int reit = Integer.parseInt(info[4]);
+                          try{
+                              Resept resept = nyleg.skrivBlaaResept(nymid, nypas, reit);
+                              resepter.leggTil(resept);
+                              nypas.leggTilResept(resept);
+                          }
+                          catch(UlovligUtskrift e){
+                              System.out.println(e);
+                          }
+                      }
+                      else if(info[3].equals("militaer") || info[3].equals("militaer")){ //gjoer det samme som med hvit resept
+                            int reit = Integer.parseInt(info[4]);
+                            try{
+                                Resept resept = nyleg.skrivMilitaerResept(nymid, nypas, reit);
+                                resepter.leggTil(resept);
+                                nypas.leggTilResept(resept);
+                            }
+                            catch(UlovligUtskrift e){
+                                System.out.println(e);
+                            }
+                      }
+                      else if(info[3].equals("p")){ //gjoer nesten det samme som hvit, bare uten reit
+                            try{
+                                Resept resept = nyleg.skrivPResept(nymid, nypas);
+                                resepter.leggTil(resept);
+                                nypas.leggTilResept(resept);
+                            }
+                            catch(UlovligUtskrift e){
+                                System.out.println(e);
+                            }
                         }
                     }
-                    else if(info[3].equals("blaa")){ //gjoer det samme som med hvit resept
-                        int reit = Integer.parseInt(info[4]);
-                        try{
-                            Resept resept = nyleg.skrivBlaaResept(nymid, nypas, reit);
-                            resepter.leggTil(resept);
-                            nypas.leggTilResept(resept);
-                        }
-                        catch(UlovligUtskrift e){
-                            System.out.println(e);
-                        }
-                    }
-                    else if(info[3].equals("millitaer")){ //gjoer det samme som med hvit resept
-                        int reit = Integer.parseInt(info[4]);
-                        try{
-                            Resept resept = nyleg.skrivMilitaerResept(nymid, nypas, reit);
-                            resepter.leggTil(resept);
-                            nypas.leggTilResept(resept);
-                        }
-                        catch(UlovligUtskrift e){
-                            System.out.println(e);
-                        }
-                    }
-                    else if(info[3].equals("p")){ //gjoer nesten det samme som hvit, bare uten reit
-                        try{
-                            Resept resept = nyleg.skrivPResept(nymid, nypas);
-                            resepter.leggTil(resept);
-                            nypas.leggTilResept(resept);
-                        }
-                        catch(UlovligUtskrift e){
-                            System.out.println(e);
-                        }
-                    }
+
                 }
             }
         }
@@ -182,25 +192,25 @@ public class LegeSystem{
             if(bruker.equals("1")){ //om brukeren skriver 1
                 System.out.println("du tastet 1");
                 oversikt(); //vis oversikten
-                System.out.println("trykk enter for aa draa videre");
+                System.out.println("trykk enter for aa gaa tilbake til Hovedmeny, eller q for aa gaa ut av systemet");
                 bruker=brukerInput.nextLine();
             }
             else if(bruker.equals("2")){
                 System.out.println("du tastet 2");//om brukeren taster 2
                 lagNy(); //kjoer lagny koden som sender brukeren til en annen meny
-                System.out.println("trykk enter for aa draa videre");
+                System.out.println("trykk enter for aa gaa tilbake til Hovedmeny, eller q for aa gaa ut av systemet");
                 bruker=brukerInput.nextLine();
             }
             else if(bruker.equals("3")){
                 System.out.println("du tastet 3");
-
-                System.out.println("trykk enter for aa draa videre");
+                brukResept();
+                System.out.println("trykk enter for aa gaa tilbake til Hovedmeny, eller q for aa gaa ut av systemet");
                 bruker=brukerInput.nextLine();
             }
             else if(bruker.equals("4")){
                 System.out.println("du tastet 4");
-
-                System.out.println("trykk enter for aa draa videre");
+                statistikk();
+                System.out.println("trykk enter for aa gaa tilbake til Hovedmeny, eller q for aa gaa ut av systemet");
                 bruker=brukerInput.nextLine();
             }
             else if(bruker.equals("5")){ //om bruker taster 5, saa skriver den ut dataen paa en ny fil
@@ -208,16 +218,16 @@ public class LegeSystem{
                 skrivUtFil(); //hoppe over til metoden for skrive ut filer.
                 System.exit(1); //bruker denne for aa hoppe tilbake
 
-                System.out.println("trykk enter for aa draa videre");
+                System.out.println("trykk enter for aa gaa tilbake til Hovedmeny, eller q for aa gaa ut av systemet");
                 bruker=brukerInput.nextLine();
             }
             else if(!bruker.equals("q")){
                 System.out.println("det du skrev ble ikke gjenkjent");
 
-                System.out.println("trykk enter for aa draa videre");
+                System.out.println("trykk enter for aa gaa tilbake til Hovedmeny, eller q for aa gaa ut av systemet");
                 bruker=brukerInput.nextLine();
             }
-            
+
         }
     }
 
@@ -233,9 +243,9 @@ public class LegeSystem{
     }
 
     public static void lagNy(){ //denne metoden skal la brukeren lage ny objekt om de oensker
-        System.out.println("Hva vil du gjoere? \n 1. ny lege? \n 2. ny pasient? \n 3. ny resept?\n 4. ny legemiddel?\n q. dra tilbake?");
         String bruker = " ";
         while(!bruker.equals("q")){ //hvis brukeren ikke skriver q skal menyen gaa
+            System.out.println("Hva vil du gjoere? \n 1. ny lege? \n 2. ny pasient? \n 3. ny resept?\n 4. ny legemiddel?\n q. dra tilbake?");
             Scanner brukerInput = new Scanner(System.in);
             bruker = brukerInput.nextLine();
 
@@ -252,13 +262,13 @@ public class LegeSystem{
                         Lege lege = new Lege(svar1); //lager legen
                         leger.leggTil(lege); //legger dem til i lista
                         System.out.println("lege laget");
-                        System.out.println("tast inn q, trykk enter, saa trykker du enter igjen for aa gaa til hovedmenyen");
+                         
                     }
                     else{ //ellers, gjoer det samme men for spesialist
                         Spesialist spesialist = new Spesialist(svar1, kontroll);
                         leger.leggTil(spesialist);
                         System.out.println("spesialist laget");
-                        System.out.println("tast inn q, trykk enter, saa trykker du enter igjen for aa gaa til hovedmenyen");
+                         
                     }
                 }
                 else{
@@ -273,9 +283,20 @@ public class LegeSystem{
                 svar1 = brukerInput.nextLine(); //lagrer det bruker skrev som navn
                 System.out.println("skriv inn foedselsnummeret");
                 svar2 = brukerInput.nextLine(); //lagrer det brukeren skrev om til foedselsnummeret
-                Pasient pasient = new Pasient(svar1, svar2); //lager pasient
-                pasienter.leggTil(pasient); //legger pasient til lista
-                System.out.println("tast inn q, trykk enter, saa trykker du enter igjen for aa gaa til hovedmenyen");
+                try{ //sjekker om brukeren skriver tall eller ikke
+                    long svarlong = Long.parseLong(svar2);
+                    if(String.valueOf(svarlong).length() == 11){
+                        Pasient pasient = new Pasient(svar1, svar2); //lager pasient
+                        pasienter.leggTil(pasient); //legger pasient til lista
+                        System.out.println("Du lagde pasient");
+                    }
+                    else{
+                        System.out.println("du maa skrive inn 11 siffer, pasient ble ikke laget"); //faar error dersom de skriver tall
+                    }
+                }
+                catch(NumberFormatException e){
+                    System.out.println("skriv tall og ikke bokstaver");
+                }
             }
             else if(bruker.equals("3")){ //bruker vil lage resept om de taster 3
                 System.out.println("du vil lage resept");
@@ -327,7 +348,7 @@ public class LegeSystem{
                                                 resepter.leggTil(nyrep); //legger den til resepter lista i legeliste
                                                 nypas.leggTilResept(nyrep); //legger den til i reseptlista til pasienten
                                                 System.out.println("Du har naa laget en ny resept");
-                                                System.out.println("tast inn q, trykk enter, saa trykker du enter igjen for aa gaa til hovedmenyen");
+                                                 
                                             }
                                             catch(UlovligUtskrift e){
                                                 System.out.println("det du skrev funket ikke");
@@ -356,17 +377,15 @@ public class LegeSystem{
                                                 resepter.leggTil(nyrep);
                                                 nypas.leggTilResept(nyrep);
                                                 System.out.println("Du har naa laget en ny resept");
-                                                System.out.println("tast inn q, trykk enter, saa trykker du enter igjen for aa gaa til hovedmenyen");
+                                                 
                                             }
                                             catch(UlovligUtskrift e){
                                                 System.out.println("det du skrev funket ikke");
                                             }
                                         }
-                                        else{
-                                            System.out.println("det var ingen legemiddel med den iden");
-                                        }
+                                        
                                     }
-                                    
+
                                 }
                                 else if(svar3.equals("3")){ //gjoer det samme som hvit resept
                                     System.out.println("Du valgte aa lage Militaer resept");
@@ -389,14 +408,11 @@ public class LegeSystem{
                                                 resepter.leggTil(nyrep);
                                                 nypas.leggTilResept(nyrep);
                                                 System.out.println("Du har naa laget en ny resept");
-                                                System.out.println("tast inn q, trykk enter, saa trykker du enter igjen for aa gaa til hovedmenyen");
+                                                 
                                             }
                                             catch(UlovligUtskrift e){
                                                 System.out.println("det du skrev funket ikke");
                                             }
-                                        }
-                                        else{
-                                            System.out.println("det var ingen legemiddel med den iden");
                                         }
                                     }
                                 }
@@ -417,23 +433,18 @@ public class LegeSystem{
                                                 resepter.leggTil(nyrep);
                                                 nypas.leggTilResept(nyrep);
                                                 System.out.println("Du har naa laget en ny resept");
-                                                System.out.println("tast inn q, trykk enter, saa trykker du enter igjen for aa gaa til hovedmenyen");
+                                                 
                                             }
                                             catch(UlovligUtskrift e){
                                                 System.out.println("det du skrev funket ikke");
                                             }
                                         }
-                                        else{
-                                            System.out.println("det var ingen legemiddel med den iden");
-                                        }
+                                        
                                     }
                                 }
                                 else{
                                     System.out.println("du skrev noe annet enn tillatt");
                                 }
-                            }
-                            else{
-                                System.out.println("det du skrev er ikke gjenkjent");
                             }
                         }
                     }
@@ -453,7 +464,7 @@ public class LegeSystem{
                 System.out.println("skriv styrken til legemiddelet (i double)");
                 virkestoff = brukerInput.nextDouble(); //det brukeren skriver som skal bli brukt som virkestoff
                 Legemiddel nyleg = null; //tomt legemiddel
-                System.out.println("velg hva slags legemiddel du skal ha \n 1. narkotisk \n 2. vanedannede \n 3. vanlig");
+                System.out.println("velg hva slags legemiddel du skal ha \n 1. narkotisk \n 2. Vanedannende \n 3. vanlig");
                 hvaslagsleg = brukerInput.nextInt(); //systemet venter paa det brukeren skriver
                 if(hvaslagsleg == 1){ //brukeren vil lage narkotisk legemiddel
                     int styrke = 0;
@@ -462,23 +473,23 @@ public class LegeSystem{
                     nyleg = new Narkotisk(navn, pris, virkestoff, styrke); //ny narkotisk legemiddel lagd med variablene som ble deklarert tidligere
                     legemidler.leggTil(nyleg); //legemiddelet blir lagt til i lista
                     System.out.println("Du har naa laget et nytt legemiddel");
-                    System.out.println("tast inn q, trykk enter, saa trykker du enter igjen for aa gaa til hovedmenyen"); //instrukser til brukeren
+                      //instrukser til brukeren
                 }
                 else if(hvaslagsleg == 2){ //samme som over
                     int styrke = 0;
-                    System.out.println("du valgte aa lage en vanedannede legemiddel \n skriv styrken");
+                    System.out.println("du valgte aa lage en Vanedannende legemiddel \n skriv styrken");
                     styrke = brukerInput.nextInt();
-                    nyleg = new Vanedannede(navn, pris, virkestoff, styrke);
+                    nyleg = new Vanedannende(navn, pris, virkestoff, styrke);
                     legemidler.leggTil(nyleg);
                     System.out.println("Du har naa laget et nytt legemiddel");
-                    System.out.println("tast inn q, trykk enter, saa trykker du enter igjen for aa gaa til hovedmenyen");
+                     
                 }
                 else if(hvaslagsleg == 3){ //samme som over men uten styrke
                     System.out.println("du valgte aa lage en vanlig legemiddel");
                     nyleg = new Vanlig(navn, pris, virkestoff);
                     legemidler.leggTil(nyleg);
                     System.out.println("Du har naa laget et nytt legemiddel");
-                    System.out.println("tast inn q, trykk enter, saa trykker du enter igjen for aa gaa til hovedmenyen");
+                     
                 }
                 else if(hvaslagsleg != 1 || hvaslagsleg != 2 || hvaslagsleg != 3){ //"error" kode
                     System.out.println("det du skrev ble ikke gjenkjent");
@@ -489,6 +500,126 @@ public class LegeSystem{
             }
         }
     }
+
+
+
+    public static void brukResept(){
+      Scanner brukerInput = new Scanner(System.in);
+      Pasient valgtPasient = null; //opprett referanse for aa beholde valgte pasient senere
+
+      System.out.println("\nHvilken pasient vil du se resepter for? (skriv tallet paa starten av linja)\n");
+      for(Pasient i : pasienter){ //looper igjennom pasientlista for aa skrive ut oversikt
+        System.out.println(i.hentId() + ": " + i.hentNavn() + " (fnr " + i.hentFodselsnummer() + ")");
+      }
+
+      Boolean svar = true;
+      while(svar){ //while looper for "pasient" hvis svar er true
+        String bruker = brukerInput.nextLine();// leser brukers input
+        for(Pasient i : pasienter){ //looper i pasienterlista
+          String id = String.valueOf(i.hentId());
+          if(bruker.equals(id)){ //sjekker om input matcher med nummeret
+            System.out.println("\nValgt pasient: "+ i.hentNavn() + " (fnr " + i.hentFodselsnummer() + ")");
+            valgtPasient = i;
+            svar = false; //sett svar til false for aa break while
+            break; //break if sjekk
+          }
+        }
+        if(svar) System.out.println("Du maa taste inn nummeret foran pasientnavn for aa velge!");
+      }
+
+
+      Stabel<Resept> reseptliste = valgtPasient.hentReseptListe();// hent reseptliste fra valgte pasienten
+      if(reseptliste.stoerrelse() == 0){ //hvis pasienten ikke har resepter
+          System.out.println("Pasient har ingen resepter!");
+      }
+      else{
+        System.out.println("\nHvilken resept vil du bruke? (skriv tallet som staar paa starten av linja)");
+        for(Resept j: reseptliste){ //looper i pasienten sin reseptlista og skrive ut oversikt
+          System.out.println(j.hentId() + ": " + j.hentLegemiddel().hentNavn() + " (" + j.hentReit() + " reit)");
+        }
+
+        svar = true; //sett svar til true igjen
+        while(svar){ //while looper for "resept" hvis svar er true
+          String bruker = brukerInput.nextLine();
+          for(Resept j: reseptliste){
+            String id = String.valueOf(j.hentId());
+            if(bruker.equals(id) && j.bruk()){ //sjekker om input matcher med nummeret og om reit er gyldig
+              System.out.println("Brukte resept paa " + j.hentLegemiddel().hentNavn() + ". Antall gjenvaerende reit: " + j.hentReit());
+              svar = false;
+              break;
+            }
+            if(bruker.equals(id) && !j.bruk()){//sjekker om input matcher med nummeret og om reit er brukt opp allerede
+              System.out.println("Kunne ikke bruke resept paa " + j.hentLegemiddel().hentNavn() + " (ingen gjenvaerende reit).");
+              svar = false;
+              break;
+            }
+          }
+          if(svar) System.out.println("Du maa taste inn nummeret foran legemiddelet for aa velge!");
+
+      }
+    }
+  }//metode brukResept
+
+
+
+
+
+    //oppgave E6: Opprett funksjonalitet for aa vise statistikk om elementene i systemet
+    public static void statistikk(){
+
+      //Totalt antall utskrevne resepter paa vanedannende legemidler
+      int antallReseptVane = 0; //Antall vanedannende resepter
+      for (Resept r: resepter){ //Skriv for loekke som gaar gjennom alle reseptene
+        if (r.hentLegemiddel() instanceof Vanedannende){ //Man kan sjekke om et legemiddel er Vanedannende ved aa bruke ​instanceof ​operatoren.
+          antallReseptVane++;  //Hvis legemiddelet er Vanedannende, saa oeker antallet resepter
+        }
+      }
+      System.out.println("Totalt antall utskrevne resepter paa vanedannende legemidler: " + antallReseptVane); //printer ut verdier
+
+
+      //Totalt antall utskrevne resepter paa narkotiske legemidler
+      int antallReseptNarkot = 0; //Antall narkotiske resepter
+      for (Resept r: resepter){ //Skriv for loekke som gaar gjennom alle reseptene
+        if (r.hentLegemiddel() instanceof Narkotisk){  //Man kan sjekke om et legemiddel er Narkotisk ved aa bruke ​instanceof ​operatoren.
+          antallReseptNarkot++; //Hvis legemiddelet er Narkotisk, saa oeker antallet resepter
+        }
+      }
+      System.out.println("Totalt antall utskrevne resepter paa narkotiske legemidler: " + antallReseptNarkot); //printer ut verdier
+
+
+
+      //List opp navnene paa alle leger som har skrevet ut minst en resept paa narkotiske legemidler
+      int antallResp = 0; //Antall resepter paa narkotiske legemiddel
+      for (Lege lege: leger){  //gaa gjennom alle leger
+        for (Resept r: lege.hentResepter()){ //Skal hente ReseptListe til legen
+          if (r.hentLegemiddel().hentType().equals("narkotisk")){ //Sjekker om et legemiddel er Narkotisk
+            antallResp++;  //Hvis legemiddelet er Narkotisk, saa oeker antall resept
+          }
+        }
+        if(antallResp>0){
+            System.out.println("\nLegens navn: " + lege.hentNavn() + "\nAntall resepter paa narkotiske legemidler: " + antallResp); //printer ut verdier
+        }
+        antallResp = 0;
+      }
+
+
+      //List opp navnene paa alle pasienter som har minst en gyldig resept paa narkotiske legemidler
+      int antallR = 0; //Antall resepter paa narkotiske legemiddel
+      for (Pasient pasient : pasienter){ //gaa gjennom alle pasienter
+        for (Resept r: pasient.hentReseptListe()){ //Skal hente ReseptListe til pasienten
+          if (r.hentLegemiddel().hentType().equals("narkotisk")){ //Sjekker om et legemiddel er Narkotisk
+            antallR++;  //Hvis legemiddelet er narkotisk, saa oeker antall resept
+          }
+        }
+        if(antallR > 0){
+            System.out.println("\nPasient navn: " + pasient.hentNavn() + "\nAntall resepter paa narkotiske legemidler: " + antallR); //printer ut verdier
+        }
+        antallR = 0;
+      }
+    }
+
+
+
 
     public static void skrivUtFil(){ //metode for aa skrive ut dataen i en ny fil
         PrintWriter nyFil = null; //bruker PrintWrite for aa kunne printe dataen
@@ -522,9 +653,9 @@ public class LegeSystem{
         for (Resept res : resepter) { //gaar gjennom hver element i resept
             if(res instanceof PResept){//kjoerer naar det er PResept
 		    //skrev det saann at det ser ut som innlesing filen til og med skrive at det en ekstra ,
-                nyFil.println(res.hentLegemiddelID() + "," + res.hentLege() + "," + res.hentPasientId().hentId() + "," + res.resType() + ",");
+                nyFil.println(res.hentLegemiddel().hentId() + "," + res.hentLege() + "," + res.hentPasientId().hentId() + "," + res.resType() + ",");
             }else{ //skriver reiter for de som ikke er PResepter
-                nyFil.println(res.hentLegemiddelID() + "," + res.hentLege() + "," + res.hentPasientId().hentId() + "," + res.resType() + "," + res.hentReit());
+                nyFil.println(res.hentLegemiddel().hentId()  + "," + res.hentLege() + "," + res.hentPasientId().hentId() + "," + res.resType() + "," + res.hentReit());
             }
         }
 
