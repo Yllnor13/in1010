@@ -51,6 +51,29 @@ public class Labyrint {
         }
 
         //hint 1, finnnabo
+        for(int i = 0; i < rader; i++){
+            for(int j = 0; j < kolonner; j++){
+                Rute over = null;
+                Rute under = null;
+                Rute venstre = null;
+                Rute hoeyre = null;
+                Rute denneRuten = null;
+
+                if(i>0){
+                    over = todimensjonell[i-1][j];
+                }
+                if(i<rad-1){
+                    under = todimensjonell[i+1][j];
+                }
+                if(j>0){
+                    venstre = todimensjonell[i][j-1];
+                }
+                if(j<kolonner-1){
+                    hoeyre = todimensjonell[i][j+1];
+                }
+                denneRuten.nyNabo(over, under, venstre, hoeyre);
+            }
+        }
 
         Labyrint nyLabyrint = new Labyrint(rader, kolonner, todimensjonell);
         return nyLabyrint;
