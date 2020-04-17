@@ -40,9 +40,6 @@ abstract public class Rute {
                 traakketpaa = true;
                 r.gaa(utvei);
             }
-            else(
-                System.out.println("Ugyldig rute posisjon, proev igjen");
-            )
         }
         traakketpaa = false;
         tall = 0;
