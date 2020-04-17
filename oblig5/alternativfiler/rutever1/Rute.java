@@ -1,16 +1,19 @@
 
 abstract public class Rute {
-    int kolonnepos;
-    int radpos;
+    protected int kolonnepos;//hvilken kolonne den er i
+    protected int radpos; // hvilken rad den er i
     //hint1
-    Rute over;
-    Rute under;
-    Rute venstre;
-    Rute hoeyre;
+    protected Rute over; //naboer fra hintet
+    protected Rute under;
+    protected Rute venstre;
+    protected Rute hoeyre;
     //Liste<Rute> naboeruno; klarte ikke aa lage en for loekke med denne
-    Rute[] naboer;
-    boolean traakketpaa = false;
+    protected Rute[] naboer; //nabolisten
+    protected boolean traakketpaa; //skulle se om den var trakket paa
     Rute forrigeRute;
+    protected static Liste<String> utveiListe; //liste med utveier som skal til labyrint, slik at det ikke kan vaere en utvei uten aapning
+    //raad fra en venn
+    protected int tall; //blir brukt senere slik at foerste steg ikke blir lagret 2 ganger
 
     public Rute(int kpos, int rpos){
         this.kolonnepos = kpos;
