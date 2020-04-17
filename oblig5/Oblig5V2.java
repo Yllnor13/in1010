@@ -51,6 +51,8 @@ class Oblig5V2 {
                     System.out.println();
                 }
                 else if(vanlig = false){
+                    System.out.println("her er labyrinten");
+                    System.out.println(l);
                     Liste<String> utveier = l.finnUtveiFra(startKol, startRad);
                     if (utveier.stoerrelse() != 0) {
                         String minstemuligevei = "";
