@@ -25,6 +25,7 @@ abstract public class Rute {
     }
 
     public void gaa(String utvei){
+        System.out.println(this.toString());
         for(Rute r : naboer){
             if(this.sjekkUtvei()){
                 utvei += this.toString();
@@ -39,6 +40,9 @@ abstract public class Rute {
                 traakketpaa = true;
                 r.gaa(utvei);
             }
+            else(
+                System.out.println("Ugyldig rute posisjon, proev igjen");
+            )
         }
         traakketpaa = false;
         tall = 0;
@@ -67,14 +71,14 @@ abstract public class Rute {
 
     //hint1
     public void nyNabo(Rute opp, Rute ned, Rute ven, Rute hoey){
-        venstre = ven;
-        hoeyre = hoey;
         over = opp;
         under = ned;
+        venstre = ven;
+        hoeyre = hoey;
         //naboeruno.leggTil(over);
         //naboeruno.leggTil(under);
         //naboeruno.leggTil(venstre);
         //naboeruno.leggTil(hoeyre);
-        naboer = new Rute[]{venstre, hoeyre, over, under};
+        naboer = new Rute[]{over, under, venstre, hoeyre};
     }
 }

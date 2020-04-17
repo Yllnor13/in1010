@@ -8,4 +8,9 @@ public class SortRute extends Rute{
     public char tilTegn(){
         return '#';
     }
+
+    @Override
+    public boolean sjekkUtvei(){ //viser seg selv som aapning uten aa bruke instanceof
+        return false;
+    }
 }
