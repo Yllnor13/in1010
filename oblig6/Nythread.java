@@ -1,0 +1,3 @@
+class Nythread extends Thread{
+    
+}
