@@ -13,6 +13,6 @@ public class Loepere {
     }
 
     public int returLengde(){
-        return lengde:
+        return lengde;
     }
 }
