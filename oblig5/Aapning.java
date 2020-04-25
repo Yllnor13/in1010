@@ -7,7 +7,7 @@ public class Aapning extends HvitRute{
     @Override
     public void gaa(Rute forirute, String veiut){
         String vei = veiut; //lagrer veien
-        veiut += this.toString(); //lagrer denne posisjonen
+        vei += this.toString(); //lagrer denne posisjonen
         laby.utveier.leggTil(vei); //legger den til i utveier lista i labyrint
     }
 }

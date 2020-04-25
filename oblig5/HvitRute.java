@@ -14,7 +14,7 @@ public class HvitRute extends Rute{
     public void gaa(Rute forirute, String veiut){
         String vei = veiut;
         forrigeRute = forirute;
-        veiut += this.toString() + "-->"; //legge til dette i utveien
+        vei += this.toString() + "-->"; //legge til dette i utveien
         for(Rute nabo : naboer){ //sjekker gjennom hver eneste nabo i denne ruten
             if(nabo != forirute){//slik at den ikke gaar tilbake naar den skal finne utveien
                 nabo.gaa(this, vei); //gaa til neste nabo
