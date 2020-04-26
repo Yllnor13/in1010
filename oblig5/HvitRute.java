@@ -12,12 +12,15 @@ public class HvitRute extends Rute{
 
     @Override
     public void gaa(Rute forirute, String veiut){
-        String vei = veiut;
+        traakketpaa = true;
+        if(tall == 0){
+            tall++;
+            veiut += this.toString() + "-->"; //legge til dette i utveien
+        }
         forrigeRute = forirute;
-        vei += this.toString() + "-->"; //legge til dette i utveien
         for(Rute nabo : naboer){ //sjekker gjennom hver eneste nabo i denne ruten
-            if(nabo != forirute){//slik at den ikke gaar tilbake naar den skal finne utveien
-                nabo.gaa(this, vei); //gaa til neste nabo
+            if(nabo != forirute && nabo.traakketpaa == false){//slik at den ikke gaar tilbake naar den skal finne utveien
+                nabo.gaa(this, veiut); //gaa til neste nabo
             }
         }
     }

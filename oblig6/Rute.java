@@ -1,72 +1,43 @@
 
-abstract public class Rute {
-    protected int kolonnepos;
-    protected int radpos;
+abstract public class Rute{
+    protected int kolonnepos;//hvilken kolonne den er i
+    protected int radpos; // hvilken rad den er i
     //hint1
-    protected Rute over;
+    protected Rute over; //naboer fra hintet
     protected Rute under;
     protected Rute venstre;
     protected Rute hoeyre;
-    //Liste<Rute> naboeruno; klarte ikke aa lage en for loekke med denne
-    protected Rute[] naboer;
+    protected Labyrint laby;
     protected boolean traakketpaa;
-    //Rute forrigeRute;
-    protected static Liste<String> utveiListe; //liste med utveier som skal til labyrint, slik at det ikke kan vaere en utvei uten aapning
-    //raad fra en venn
-    protected int tall;
+    protected Rute[] naboer; //nabolisten
+    Rute forrigeRute;//brukes slik at ruten vet hvor den var
+    protected int tall; //blir brukt senere slik at foerste steg ikke blir lagret 2 ganger
 
-    public Rute(int kpos, int rpos){
+    public Rute(int kpos, int rpos, Labyrint lab){ //konstruktoer som lagrer posisjonen til ruten i rute
         this.kolonnepos = kpos;
         this.radpos = rpos;
+        this.laby = lab;
     }
     
-    private boolean seeOmTraaket(){
+    private boolean seeOmTraaket(){ //fra trakket paa
         return traakketpaa;
     }
 
-    public void gaa(String utvei){
-        for(Rute r : naboer){
-            if(this.sjekkUtvei()){
-                utvei += this.toString();
-                utveiListe.leggTil(utvei);
-                return;
-            }
-            if(this.erHvit() && r.erHvit() && r.traakketpaa == false){
-                if(tall == 0){
-                    utvei += this.toString() + " --> ";
-                    tall ++;
-                }
-                traakketpaa = true;
-                r.gaa(utvei);
-            }
-        }
-        traakketpaa = false;
-        tall = 0;
-    }
+    public abstract void gaa(Rute forirute, String vei); //hver type rute har sin egen mate aa gaa paa
 
     public String toString(){ //for aa skrive utvei
         return "(" + kolonnepos + ", " + radpos +")";
     }
 
-    public Liste<String> finnUtvei(){
-        utveiListe = new Lenkeliste<String>(); //slik at jeg kan bruke leggtil metoden
+    public void finnUtvei(){ //finner utvei
         String vei = "";
-        this.gaa(vei);
-        return utveiListe;
+        this.gaa(null, vei);
     }
 
     public abstract char tilTegn();
 
-    public boolean sjekkUtvei(){
-        return false;
-    }
-    
-    public boolean erHvit(){
-        return false;
-    }
-
     //hint1
-    public void nyNabo(Rute opp, Rute ned, Rute ven, Rute hoey){
+    public void nyNabo(Rute opp, Rute ned, Rute ven, Rute hoey){ //lagrer liste av naboer i denne metoden
         venstre = ven;
         hoeyre = hoey;
         over = opp;

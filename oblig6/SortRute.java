@@ -1,16 +1,16 @@
 
 public class SortRute extends Rute{
-    public SortRute(int k, int r){
-        super(k,r);
+    public SortRute(int k, int r, Labyrint l){ //konstruktoer som blir send til super
+        super(k,r,l);
     }
 
     @Override
-    public char tilTegn(){
+    public char tilTegn(){ //returnerer hva slags tegn det er naar man printer ut labyrinten
         return '#';
     }
 
     @Override
-    public boolean sjekkUtvei(){ //viser seg selv som aapning uten aa bruke instanceof
-        return false;
+    public void gaa(Rute forirute, String veiut){
+        return;//dette er en sort rute, saa ingentisk skal skje her
     }
 }

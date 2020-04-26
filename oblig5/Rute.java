@@ -1,5 +1,5 @@
 
-abstract public class Rute {
+abstract public class Rute{
     protected int kolonnepos;//hvilken kolonne den er i
     protected int radpos; // hvilken rad den er i
     //hint1
@@ -8,8 +8,10 @@ abstract public class Rute {
     protected Rute venstre;
     protected Rute hoeyre;
     protected Labyrint laby;
+    protected boolean traakketpaa;
     protected Rute[] naboer; //nabolisten
     Rute forrigeRute;//brukes slik at ruten vet hvor den var
+    protected int tall; //blir brukt senere slik at foerste steg ikke blir lagret 2 ganger
 
     public Rute(int kpos, int rpos, Labyrint lab){ //konstruktoer som lagrer posisjonen til ruten i rute
         this.kolonnepos = kpos;
@@ -17,6 +19,9 @@ abstract public class Rute {
         this.laby = lab;
     }
     
+    private boolean seeOmTraaket(){ //fra trakket paa
+        return traakketpaa;
+    }
 
     public abstract void gaa(Rute forirute, String vei); //hver type rute har sin egen mate aa gaa paa
 
