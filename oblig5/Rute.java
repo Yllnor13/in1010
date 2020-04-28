@@ -23,7 +23,7 @@ abstract public class Rute{
         return traakketpaa;
     }
 
-    public abstract void gaa(Rute forirute, String vei); //hver type rute har sin egen mate aa gaa paa
+    public abstract void gaa(String vei); //hver type rute har sin egen mate aa gaa paa
 
     public String toString(){ //for aa skrive utvei
         return "(" + kolonnepos + ", " + radpos +")";
@@ -31,7 +31,7 @@ abstract public class Rute{
 
     public void finnUtvei(){ //finner utvei
         String vei = "";
-        this.gaa(null, vei);
+        this.gaa(vei);
     }
 
     public abstract char tilTegn();

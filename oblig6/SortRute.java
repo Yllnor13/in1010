@@ -10,7 +10,7 @@ public class SortRute extends Rute{
     }
 
     @Override
-    public void gaa(Rute forirute, String veiut){
+    public void gaa(String veiut){
         return;//dette er en sort rute, saa ingentisk skal skje her
     }
 }

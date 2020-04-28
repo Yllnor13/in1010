@@ -6,7 +6,7 @@ public class Labyrint {
     private static int rader;       //rader
     private static int kolonner;    //kolonner
     private static Rute[][] ruter;  //todimensjonell array
-    public Liste<String> utveier;
+    private Liste<String> utveier;
 
 
     public String toString(){ //tostring metode, brukes til å vise fram labyrinten
@@ -91,6 +91,10 @@ public class Labyrint {
             }
         }
         return nyLabyrint; //returner labyrinten
+    }
+
+    public void leggTilUtvei(String veiut){
+        utveier.leggTil(veiut); //legger den til i utveier lista i labyrint
     }
 
     public Liste<String> finnUtveiFra(int starR, int starK){//finnutveifra metoden, som tar imot start rad og start kolonne posisjon som parameter

@@ -1,3 +1,4 @@
+import java.util.concurrent.*;
 
 abstract public class Rute{
     protected int kolonnepos;//hvilken kolonne den er i
@@ -8,7 +9,7 @@ abstract public class Rute{
     protected Rute venstre;
     protected Rute hoeyre;
     protected Labyrint laby;
-    protected boolean traakketpaa;
+    protected boolean traakketpaa = false;
     protected Rute[] naboer; //nabolisten
     Rute forrigeRute;//brukes slik at ruten vet hvor den var
     protected int tall; //blir brukt senere slik at foerste steg ikke blir lagret 2 ganger
@@ -23,7 +24,7 @@ abstract public class Rute{
         return traakketpaa;
     }
 
-    public abstract void gaa(Rute forirute, String vei); //hver type rute har sin egen mate aa gaa paa
+    public abstract void gaa(String vei); //hver type rute har sin egen mate aa gaa paa
 
     public String toString(){ //for aa skrive utvei
         return "(" + kolonnepos + ", " + radpos +")";
@@ -31,7 +32,46 @@ abstract public class Rute{
 
     public void finnUtvei(){ //finner utvei
         String vei = "";
-        this.gaa(null, vei);
+        //this.gaa(null, vei); trenger ikke denne lenger
+        CountDownLatch l = null;
+        Runnable run = null;
+        int ledignabo = 0;
+        for(int i = 0; i < naboer.length; i++){
+            if(naboer[i] != null && naboer[i].tilTegn() == '.'){
+                ledignabo++;
+            }
+        }
+
+        if(ledignabo > 1){
+            l = new CountDownLatch(ledignabo-1);
+
+            for(int i = 0; i < naboer.length; i++){
+                if(naboer[i] != null && naboer[i].tilTegn() == '.'){
+                    if(traakketpaa = false){
+                        naboer[i].gaa(vei);
+                        traakketpaa = true;
+                    }
+                    else{
+                        run = new Gaaa(naboer[i], vei , l);
+                        Thread traad = new Thread(run);
+                        traad.start();
+                    }
+                }
+            }
+        }
+    
+
+        try{
+            l.await();
+        } catch(InterruptedException e) {}
+
+        if(ledignabo == 1){
+            for(int i = 0; i < naboer.length; i++){
+                if(naboer[i] != null && naboer[i].tilTegn() == '.'){
+                    naboer[i].gaa(vei);
+                }
+            }
+        }
     }
 
     public abstract char tilTegn();
