@@ -19,10 +19,6 @@ abstract public class Rute{
         this.radpos = rpos;
         this.laby = lab;
     }
-    
-    private boolean seeOmTraaket(){ //fra trakket paa
-        return traakketpaa;
-    }
 
     public abstract void gaa(String vei); //hver type rute har sin egen mate aa gaa paa
 
