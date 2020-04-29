@@ -6,7 +6,7 @@ public class Labyrint {
     private static int rader;       //rader
     private static int kolonner;    //kolonner
     private static Rute[][] ruter;  //todimensjonell array
-    private Liste<String> utveier;
+    private Liste<String> utveier; //utveier
 
 
     public String toString(){ //tostring metode, brukes til å vise fram labyrinten
@@ -25,6 +25,24 @@ public class Labyrint {
         rader = rad;
         kolonner = kol;
         ruter = rut;
+    }
+    
+    public void leggTilUtvei(String veiut){
+        utveier.leggTil(veiut); //legger den til i utveier lista i labyrint
+    }
+
+    public Liste<String> finnUtveiFra(int starR, int starK){//finnutveifra metoden, som tar imot start rad og start kolonne posisjon som parameter
+        Rute startPunkt = ruter[starR][starK]; //hjelpepeker som man starter fra i posisjonen i rutekartet
+        if(startPunkt.tilTegn() == '#'){ //hvis man skrev en posisjon som var sort rute saa skal man faa error melding
+            System.out.println("du skrev svart rute som start posisjon, skriv paa nytt \n\naltsaa, det ble...");
+            Liste<String> feilstring = new Lenkeliste<>(); //lager lenkeliste slik at den kan bli returnert
+            return feilstring; //returnerer stringliste slik at metoden kan funke
+        }
+        else{//ellers saa skal man bruke finn utvei. skjoenner ikke hvorfor vi ikke ble bedt om aa gjoere finn utvei og finnutveifra om til samme fil om de gjoer det samme
+            utveier = new Lenkeliste<String>();
+            startPunkt.finnUtvei(); //lagrer utveiene til startpunkt i utveier
+            return utveier; //returnerer utveier
+        }
     }
 
     public static Labyrint lesFraFil(File tall) throws FileNotFoundException{//public lesfrafil slik at andre filer kan bruke metoden, alt annet er privat her (utenom finnutveifra). tar imot filen "tall", fordi filnavnene var nummer
@@ -92,22 +110,5 @@ public class Labyrint {
         }
         return nyLabyrint; //returner labyrinten
     }
-
-    public void leggTilUtvei(String veiut){
-        utveier.leggTil(veiut); //legger den til i utveier lista i labyrint
-    }
-
-    public Liste<String> finnUtveiFra(int starR, int starK){//finnutveifra metoden, som tar imot start rad og start kolonne posisjon som parameter
-        Rute startPunkt = ruter[starR][starK]; //hjelpepeker som man starter fra i posisjonen i rutekartet
-        if(startPunkt.tilTegn() == '#'){ //hvis man skrev en posisjon som var sort rute saa skal man faa error melding
-            System.out.println("du skrev svart rute som start posisjon, skriv paa nytt \n\naltsaa, det ble...");
-            Liste<String> feilstring = new Lenkeliste<>(); //lager lenkeliste slik at den kan bli returnert
-            return feilstring; //returnerer stringliste slik at metoden kan funke
-        }
-        else{//ellers saa skal man bruke finn utvei. skjoenner ikke hvorfor vi ikke ble bedt om aa gjoere finn utvei og finnutveifra om til samme fil om de gjoer det samme
-            utveier = new Lenkeliste<String>();
-            startPunkt.finnUtvei(); //lagrer utveiene til startpunkt i utveier
-            return utveier; //returnerer utveier
-        }
-    }
+    
 }
