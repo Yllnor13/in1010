@@ -12,7 +12,7 @@ public class HvitRute extends Rute{
     }
 
     @Override
-    public void gaa(String veiut){
+    public synchronized void gaa(String veiut){
         traakketpaa = false;
         if(tall == 0){
             tall++;
