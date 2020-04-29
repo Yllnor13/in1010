@@ -11,10 +11,10 @@ public class HvitRute extends Rute{
     }
 
     @Override
-    public void gaa(String veiut){
-        traakketpaa = true;
+    public void gaa(String veiut){ //polimorfi
+        traakketpaa = true; //sier at denne er trakkettpaa
         if(tall == 0){
-            tall++;
+            tall++; //er her bare slik at posisjonen ikke blir printet to ganger
             veiut += this.toString() + "-->"; //legge til dette i utveien
         }
         for(Rute nabo : naboer){ //sjekker gjennom hver eneste nabo i denne ruten

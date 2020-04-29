@@ -21,13 +21,13 @@ public class Labyrint {
         return kart;
     }
 
-    private Labyrint(int rad, int kol, Rute[][] rut){
+    private Labyrint(int rad, int kol, Rute[][] rut){ //konstruktoer
         rader = rad;
         kolonner = kol;
         ruter = rut;
     }
     
-    public void leggTilUtvei(String veiut){
+    public void leggTilUtvei(String veiut){ //metode som skal bli brukt i aapning.gaa slik at liste kan forbli private
         utveier.leggTil(veiut); //legger den til i utveier lista i labyrint
     }
 
