@@ -33,6 +33,7 @@ abstract public class Rute{
     public void finnUtvei(){ //finner utvei
         String vei = "";
         //this.gaa(null, vei); trenger ikke denne lenger
+        traakketpaa = false;
         CountDownLatch l = null;
         Runnable run = null;
         int ledignabo = 0;

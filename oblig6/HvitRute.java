@@ -13,7 +13,7 @@ public class HvitRute extends Rute{
 
     @Override
     public void gaa(String veiut){
-        traakketpaa = true;
+        traakketpaa = false;
         if(tall == 0){
             tall++;
             veiut += this.toString() + "-->"; //legge til dette i utveien
