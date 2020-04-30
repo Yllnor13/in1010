@@ -28,7 +28,7 @@ abstract public class Rute{
 
     public void finnUtvei(){ //finner utvei
         String vei = "";
-        this.gaa(vei); //trenger ikke denne lenger
+        this.gaa(vei); //finner utvei med gaa
     }
 
     public abstract char tilTegn();
