@@ -15,9 +15,9 @@ abstract public class Rute{
     protected int tall; //blir brukt senere slik at foerste steg ikke blir lagret 2 ganger
 
     public Rute(int kpos, int rpos, Labyrint lab){ //konstruktoer som lagrer posisjonen til ruten i rute
-        this.kolonnepos = kpos;
-        this.radpos = rpos;
-        this.laby = lab;
+        kolonnepos = kpos;
+        radpos = rpos;
+        laby = lab;
     }
 
     public abstract void gaa(String vei); //hver type rute har sin egen mate aa gaa paa
@@ -28,47 +28,7 @@ abstract public class Rute{
 
     public void finnUtvei(){ //finner utvei
         String vei = "";
-        //this.gaa(null, vei); trenger ikke denne lenger
-        traakketpaa = false;
-        CountDownLatch l = null;
-        Runnable run = null;
-        int ledignabo = 0;
-        for(int i = 0; i < naboer.length; i++){
-            if(naboer[i] != null && naboer[i].tilTegn() == '.'){
-                ledignabo++;
-            }
-        }
-
-        if(ledignabo > 1){
-            l = new CountDownLatch(ledignabo-1);
-
-            for(int i = 0; i < naboer.length; i++){
-                if(naboer[i] != null && naboer[i].tilTegn() == '.'){
-                    if(traakketpaa = false){
-                        naboer[i].gaa(vei);
-                        traakketpaa = true;
-                    }
-                    else{
-                        run = new Gaaa(naboer[i], vei , l);
-                        Thread traad = new Thread(run);
-                        traad.start();
-                    }
-                }
-            }
-        }
-    
-
-        try{
-            l.await();
-        } catch(InterruptedException e) {}
-
-        if(ledignabo == 1){
-            for(int i = 0; i < naboer.length; i++){
-                if(naboer[i] != null && naboer[i].tilTegn() == '.'){
-                    naboer[i].gaa(vei);
-                }
-            }
-        }
+        this.gaa(vei); //trenger ikke denne lenger
     }
 
     public abstract char tilTegn();

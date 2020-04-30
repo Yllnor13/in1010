@@ -8,6 +8,7 @@ public class Aapning extends HvitRute{
 
     @Override
     public void gaa(String veiut){
+        //System.out.println("FANT UTVEI"); //brukt for debug
         vei = veiut; //lagrer veien
         vei += this.toString(); //lagrer denne posisjonen
         laby.leggTilUtvei(vei); //legger den til i utveier lista i labyrint

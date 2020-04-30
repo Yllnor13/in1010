@@ -1,6 +1,22 @@
 import java.util.concurrent.*;
 
 public class HvitRute extends Rute{
+    private class Gaa implements Runnable{ //den er her fordi andre klasser trenger ikke aa bruke denne
+        Rute naborute; //for naboruten
+        String posisjon; //for posisjonen denne hvite ruten er i
+        CountDownLatch cdl; //for countdownlatchen denne ruten trenger
+    
+        public Gaa(Rute nr, String p, CountDownLatch ldc){ //konstruktoer
+            naborute = nr;
+            posisjon = p;
+            cdl = ldc;
+        }
+    
+        public void run(){
+            naborute.gaa(posisjon); //kaller paa gaa metoden naar traden med denne runnablen starter
+            cdl.countDown(); //cdl coutner ned.
+        }
+    }
 
     public HvitRute(int k, int r, Labyrint l){ //konstruktoer som blir send til super
         super(k,r,l);
@@ -12,9 +28,9 @@ public class HvitRute extends Rute{
     }
 
     @Override
-    public synchronized void gaa(String veiut){
-        traakketpaa = false;
-        if(tall == 0){
+    public void gaa(String veiut){
+        traakketpaa = true;
+        if(tall == 0){ //er her fordi posisjon blir skrevet inn i stringen 2 ganger hvis jeg ikke har med dette
             tall++;
             veiut += this.toString() + "-->"; //legge til dette i utveien
         }
@@ -22,45 +38,36 @@ public class HvitRute extends Rute{
             if(nabo.traakketpaa == false){//slik at den ikke Gaar tilbake naar den skal finne utveien
                 nabo.gaa(this, veiut); //gaa til neste nabo
             }
-        }*/
-        CountDownLatch l = null;
-        Runnable run = null;
-        int ledignabo = 0;
-        for(int i = 0; i < naboer.length; i++){
-            if(naboer[i] != null && naboer[i].tilTegn() == '.'){
-                ledignabo++;
+        }// brukte denne foer */
+
+        CountDownLatch l = null; //skaper en tom countdownlatch
+        Runnable run = null; //skaper en tom runnable
+        int ledignabo = 0; //den skal se antall ledige naboer
+        for(int i = 0; i < naboer.length; i++){ //gjoer int i om til lengden av nabolista (jeg kunne egt bare ha skrevet int = 4), og gjoer iftesten under for hver nabo
+            if(naboer[i] != null && naboer[i].tilTegn() == '.' && naboer[i].traakketpaa == false){ //sjekker om nabo finnes, om nabo er hvit og om nabo ikke er traakketpaa
+                ledignabo++; //oeker ledignabo med 1
             }
         }
 
-        if(ledignabo > 1){
-            l = new CountDownLatch(ledignabo-1);
-
-            for(int i = 0; i < naboer.length; i++){
-                if(naboer[i] != null && naboer[i].tilTegn() == '.'){
-                    if(traakketpaa = false){
-                        naboer[i].gaa(veiut);
-                        traakketpaa = true;
+        if(ledignabo >= 1){ //hvis det er 2 ledige utveier, saa skal jeg lage en traad for den andre utveien, mens denne traaden skal fortsette selv
+            l = new CountDownLatch(ledignabo-1); //ledignabo senker med 1 for hver gang denne testen gaar, til det bare er en nabo igjen
+            for(int i = 0; i < naboer.length; i++){ // skal teste hver nabo
+                if(naboer[i] != null && naboer[i].tilTegn() == '.' && naboer[i].traakketpaa == false){ //hvis naboen finnes, er hvit, og ikke er trakketpaa...
+                    if(ledignabo > 1){ //hvis det er mer enn en ledig nabo saa skal den lage en ny traad
+                        ledignabo--; //senker mengden av ledige nabo uten traad
+                        run = new Gaa(naboer[i], veiut , l); //ny run med naboen, veiut stringen og latchen
+                        Thread traad = new Thread(run); //lager en ny trad som skal kjoere denne runnen
+                        traad.start();//starter den nye traaden
+                        //System.out.println(traad + " " + this + " " + naboer[i]); //er for aa teste
                     }
-                    else{
-                        run = new Gaaa(naboer[i], veiut , l);
-                        Thread traad = new Thread(run);
-                        traad.start();
+                    else if(ledignabo == 1){ //hvis det bare er en ledig nabo
+                        naboer[i].gaa(veiut); //sa fortsetter denne her videre
                     }
                 }
             }
-        }
-    
-
-        try{
-            l.await();
-        } catch(InterruptedException e) {}
-
-        if(ledignabo == 1){
-            for(int i = 0; i < naboer.length; i++){
-                if(naboer[i] != null && naboer[i].tilTegn() == '.'){
-                    naboer[i].gaa(veiut);
-                }
-            }
+            try{//kjoerer denne her
+                l.await(); //venter til andre threads er ferdig
+            } catch(InterruptedException e) {}
         }
     }
 }
