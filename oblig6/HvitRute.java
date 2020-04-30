@@ -71,3 +71,14 @@ public class HvitRute extends Rute{
         }
     }
 }
+
+/* svar paa spoersmal i oblig 6
+er ikke helt sikker paa om jeg forstaer spoersmalet rikting (antar at den "gamle traaden" er main traden)
+fra det jeg saa da jeg testet (med at aapning printer ut naar den blir funnet, og naar threads blir laget), saa var det opp til hvilken rekkefoelge koden saa gjennom naboene.
+for meg, saa var nabolista denne rekkefoelgen (venstre, hoeyre, over, undeer)
+saa hvis det var en labyrint som hadde en rett utvei som gikk rett mot venstre, sa ville programmet mitt ga sidelengs uten a lage nye threads til den fant den ene utveien
+saa lage threads for utveiene som var hoeyre/over/under (i den rekkefoelgen).
+det kan hende at den fant en utvei foer foerste trad ble laget (med labyrint 7, kol 1, rad 1)
+den ville lage en ny trad for hver ledig traad etter den foerste ledige naboen
+haaper jeg svarte riktig
+*/
