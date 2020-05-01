@@ -31,7 +31,7 @@ public class Labyrint {
         utveier.leggTil(veiut); //legger den til i utveier lista i labyrint
     }
 
-    public Liste<String> finnUtveiFra(int starR, int starK){//finnutveifra metoden, som tar imot start rad og start kolonne posisjon som parameter
+    public Liste<String> finnUtveiFra(int starK, int starR){//finnutveifra metoden, som tar imot start rad og start kolonne posisjon som parameter
         Rute startPunkt = ruter[starR][starK]; //hjelpepeker som man starter fra i posisjonen i rutekartet
         if(startPunkt.tilTegn() == '#'){ //hvis man skrev en posisjon som var sort rute saa skal man faa error melding
             System.out.println("du skrev svart rute som start posisjon, skriv paa nytt \n\naltsaa, det ble...");
