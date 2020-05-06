@@ -67,7 +67,7 @@ class Oblig5V2 {
                         for(String vei : utveier){ //gjennom en for loekke
                             System.out.println("\n" + vei);
                         }
-                        System.out.println("ut av alle, saa var denne den korteste"); //saa vis den korteste
+                        System.out.println("\nut av alle, saa var denne den korteste\n"); //saa vis den korteste
                         System.out.println(minstemuligevei);
                     } else {
                         System.out.println("Ingen utveier.");
