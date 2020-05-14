@@ -1,6 +1,7 @@
 import java.util.concurrent.*;
+import javafx.scene.control.Button;
 
-abstract public class Rute{
+abstract public class Rute extends Button{
     protected int kolonnepos;//hvilken kolonne den er i
     protected int radpos; // hvilken rad den er i
     //hint1
@@ -18,6 +19,14 @@ abstract public class Rute{
         kolonnepos = kpos;
         radpos = rpos;
         laby = lab;
+    }
+
+    public int radPos(){
+        return radpos;
+    }
+
+    public int kolPos(){
+        return kolonnepos;
     }
 
     public abstract void gaa(String vei); //hver type rute har sin egen mate aa gaa paa

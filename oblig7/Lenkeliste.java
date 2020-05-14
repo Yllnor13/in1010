@@ -45,7 +45,7 @@ public class Lenkeliste<T> implements Liste<T>, Iterable<T> {
     }
   } //leggTil(pos)
 
-  public void leggTil(T x) {
+  public synchronized void leggTil(T x) {
     Node ny = new Node(x);
     if(start == null) { //hvis lista er tom
       start = ny;// sett start til ny nodeobejekt og dette skjer bare første gang vi kaller leggTil

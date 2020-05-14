@@ -27,6 +27,18 @@ public class Labyrint {
         ruter = rut;
     }
 
+    public Rute[][] hentRuter(){
+        return ruter;
+    }
+
+    public int hentKolonner(){
+        return kolonner;
+    }
+
+    public int hentRader(){
+        return rader;
+    }
+
     public static Labyrint lesFraFil(File tall) throws FileNotFoundException{//public lesfrafil slik at andre filer kan bruke metoden, alt annet er privat her (utenom finnutveifra). tar imot filen "tall", fordi filnavnene var nummer
         Scanner lesfil = null;//ny scanner som skal lese
         lesfil = new Scanner(tall); //gjoer variabel lesfil om til scanner(tall)

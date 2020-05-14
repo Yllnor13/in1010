@@ -69,6 +69,8 @@ public class HvitRute extends Rute{
                 l.await(); //venter til andre threads er ferdig
             } catch(InterruptedException e) {}
         }
+        tall = 0;
+        traakketpaa = false;
     }
 }
 
