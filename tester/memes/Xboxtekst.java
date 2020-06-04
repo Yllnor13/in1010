@@ -1,5 +1,5 @@
 public class Xboxtekst{
-    static int xbox = 1;
+    static int xbox = 2;
     public static void main(String[] args){
         System.out.println("Xbox 360? what happened to...");
         System.out.print("Xbox 1, ");
