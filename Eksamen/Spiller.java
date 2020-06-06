@@ -1,4 +1,5 @@
 public class Spiller {
+    int trekk;
     Sted lokasjon;
     Brukergrensesnitt grensesnitt;
     int formue;

@@ -1,12 +1,16 @@
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Skattekiste {
-    ArrayList<Gjenstand> gjenstander = new ArrayList<Gjenstand>();
+    public Liste<Gjenstand> gjenstander = new Liste<Gjenstand>();
+    Lenkeliste<Gjenstabd> velgfra = new Lenkeliste<Gjenstand>();
     int maksantall = 4;
 
-    public Skattekiste(){
-        String bla = "blablabla";
+    public Skattekiste() throws FileNotFoundException{
+        gjenstander = new Lenkeliste<Gjenstand>();
     }
 
     public int leggTil(Gjenstand gjen){
@@ -36,7 +40,7 @@ public class Skattekiste {
 
     public void taUt(){
         Random tilf = new Random();
-        int kistestoerrelse = gjenstander.size();
+        int kistestoerrelse = gjenstander.stoerrelse();
         int tilftall = tilf.nextInt(kistestoerrelse);
         gjenstander.remove(tilftall);
     }
