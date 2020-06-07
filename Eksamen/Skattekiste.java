@@ -5,21 +5,23 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class Skattekiste {
-    public Liste<Gjenstand> gjenstander = new Liste<Gjenstand>();
-    Lenkeliste<Gjenstabd> velgfra = new Lenkeliste<Gjenstand>();
-    int maksantall = 4;
+    public Lenkeliste<Gjenstand> gjenstander = new Lenkeliste<Gjenstand>();
+    int maksantall;
+    int naa;
 
-    public Skattekiste() throws FileNotFoundException{
-        gjenstander = new Lenkeliste<Gjenstand>();
+
+    public Skattekiste(int plass){
+        maksantall = plass;
     }
 
     public int leggTil(Gjenstand gjen){
-        if (maksantall >= 4){
+        if (naa == maksantall){
             System.out.println("det er ikke nok plass");
             return 0;
         }
         else{
-            gjenstander.add(gjen);
+            naa++;
+            gjenstander.leggTil(gjen);
             Random tilf = new Random();
             int tilftall = tilf.nextInt(3);
             if(tilftall == 0){
@@ -39,9 +41,10 @@ public class Skattekiste {
     }
 
     public void taUt(){
+        naa--;
         Random tilf = new Random();
         int kistestoerrelse = gjenstander.stoerrelse();
         int tilftall = tilf.nextInt(kistestoerrelse);
-        gjenstander.remove(tilftall);
+        gjenstander.fjern(tilftall);
     }
 }

@@ -18,7 +18,7 @@ public class Terminal implements Brukergrensesnitt{
         int alt = 0;
         for (String s : alternativer){
             alt ++;
-            System.out.println(alt + ". " + alternativer);
+            System.out.println(s);
         }
         int valg = leser.nextInt();
         return valg;

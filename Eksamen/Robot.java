@@ -1,11 +1,9 @@
 import java.util.Random;
 
 public class Robot implements Brukergrensesnitt{
-    int trekk = 0;
     String lokasjon;
 
-    public Robot(int trekker){
-        trekk = trekker;
+    public Robot(){
     }
 
     public void giStatus(String status){
@@ -19,7 +17,6 @@ public class Robot implements Brukergrensesnitt{
         }
         Random rand = new Random();
         int valg = rand.nextInt(alternativer.length);
-        trekk++;
         return valg;
     }
 }

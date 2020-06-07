@@ -7,7 +7,7 @@ public class Sted {
         posisjon = sted;
     }
 
-    public void leggtilskatt(Skattekiste skatt){
+    public void leggTilSkatt(Skattekiste skatt){
         rikdom = skatt;
     }
 
