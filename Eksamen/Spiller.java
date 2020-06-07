@@ -7,8 +7,8 @@ public class Spiller {
     Brukergrensesnitt grensesnitt;
     int formue;
     Skattekiste ryggsekk = new Skattekiste(12);
-    String spoersmal = "hva oensker du aa gjoere? (skriv tallet) \n";
-    String[] alternativer = {"0. Legge fra en gjenstand.", "1. Ta ut en gjenstand.", "2. Gaa videre."};
+    String spoersmal = "\nHva oensker du aa gjoere? (skriv tallet) \n";
+    String[] alternativer = {"0. Legge fra en gjenstand.", "1. Ta ut en gjenstand.", "2. Gaa videre.\n"};
     
     public Spiller(Sted start, Brukergrensesnitt spiller){
         lokasjon = start;
@@ -26,10 +26,10 @@ public class Spiller {
                         System.out.println("du har ikke noe paa deg");
                     }
                     else if(lokasjon.hentRikdom().gjenstander.stoerrelse() == lokasjon.hentRikdom().maksantall){
-                        System.out.println("kista er full");
+                        System.out.println("kista er full \n");
                     }
                     else{
-                        System.out.println("hva vil du legge fra deg?");
+                        System.out.println("hva vil du legge fra deg?\n");
                         int tall = 0;
                         for (Gjenstand g : ryggsekk.gjenstander){
                             System.out.println(tall + ". " + g.navn + ", som er verdt: " + g.verdi + "?");
@@ -38,6 +38,7 @@ public class Spiller {
                         int nyvalgtall = nyvalg.nextInt();
                         String navnpaavare = ryggsekk.gjenstander.hent(nyvalgtall).navn;
                         int solgt = lokasjon.hentRikdom().leggTil(ryggsekk.gjenstander.hent(nyvalgtall));
+                        ryggsekk.gjenstander.fjern(nyvalgtall);
                         System.out.println("Du solgte din " + navnpaavare + " for " + solgt);
                         formue += solgt;
                     }
