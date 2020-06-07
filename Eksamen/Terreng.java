@@ -8,7 +8,7 @@ public class Terreng {
     Lenkeliste<Sted> steder = new Lenkeliste<Sted>();
     Lenkeliste<Gjenstand> gjenstander = new Lenkeliste<Gjenstand>();
 
-    public Terreng() throws FileNotFoundException{
+    public Terreng(){
         lesSteder();
         lesGjenstander();
         fyllOppSteder();
@@ -28,7 +28,7 @@ public class Terreng {
             }
             s.leggTilSkatt(nyKiste);
         }
-        //test
+        //test for aa see om alt er fullt
         /*
         for(Sted s : steder){
             System.out.println(s.posisjon + " og i kista saa er det");

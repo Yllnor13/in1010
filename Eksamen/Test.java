@@ -12,18 +12,12 @@ public class Test {
         Scanner nyscan = new Scanner(System.in);
         Terminal man = new Terminal(nyscan);
 
-        Sted sted = new Sted("robert er her");
-
-        try{
-            Terreng testter = new Terreng();
-        }
-        catch(FileNotFoundException e){
-            System.out.println("noe gikk galt");
-        }
-        Spiller rob = new Spiller(sted, robert);
+        
+        Terreng testter = new Terreng();
+        Spiller rob = new Spiller(testter.hentStart(), robert);
         rob.nyTrekk();
 
-        Spiller mann = new Spiller(sted, man);
+        Spiller mann = new Spiller(testter.hentStart(), man);
         mann.nyTrekk();
     }
 }

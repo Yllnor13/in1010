@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 public class Skattekiste {
     public Lenkeliste<Gjenstand> gjenstander = new Lenkeliste<Gjenstand>();
     int maksantall;
-    int naa;
+    int naa = maksantall;
 
 
     public Skattekiste(int plass){
@@ -15,36 +15,37 @@ public class Skattekiste {
     }
 
     public int leggTil(Gjenstand gjen){
-        if (naa == maksantall){
-            System.out.println("det er ikke nok plass");
-            return 0;
+        naa++;
+        gjenstander.leggTil(gjen);
+        Random tilf = new Random();
+        int tilftall = tilf.nextInt(3);
+        if(tilftall == 0){
+            int betaling = (gjen.verdi/5) * 4;
+            return betaling;
         }
-        else{
-            naa++;
-            gjenstander.leggTil(gjen);
-            Random tilf = new Random();
-            int tilftall = tilf.nextInt(3);
-            if(tilftall == 0){
-                int betaling = (gjen.verdi/5) * 4;
-                return betaling;
-            }
-            else if(tilftall == 1){
-                int betaling = gjen.verdi;
-                return betaling;
-            }
-            else if(tilftall == 2){
-                int betaling = (gjen.verdi/5) * 6;
-                return betaling;
-            }
+        else if(tilftall == 1){
+            int betaling = gjen.verdi;
+            return betaling;
+        }
+        else if(tilftall == 2){
+            int betaling = (gjen.verdi/5) * 6;
+            return betaling;
         }
         return 0;
     }
 
-    public void taUt(){
-        naa--;
-        Random tilf = new Random();
-        int kistestoerrelse = gjenstander.stoerrelse();
-        int tilftall = tilf.nextInt(kistestoerrelse);
-        gjenstander.fjern(tilftall);
+    public int taUt(){
+        if(naa == 0){
+            System.out.println("det er ingenting i kista");
+            return naa;
+        }
+        else{
+            naa--;
+            Random tilf = new Random();
+            int kistestoerrelse = gjenstander.stoerrelse();
+            int tilftall = tilf.nextInt(kistestoerrelse);
+            gjenstander.fjern(tilftall);
+            return tilftall;
+        }
     }
 }
