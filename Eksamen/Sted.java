@@ -18,4 +18,12 @@ public class Sted {
     public Sted gaaVidere(){
         return utgang;
     }
+
+    public void leggTilUtgang(Sted nyUtgang){
+        utgang = nyUtgang;
+    }
+
+    public String toString(){
+        return posisjon;
+    }
 }

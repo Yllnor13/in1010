@@ -88,7 +88,7 @@ public class Terreng {
 
         int pos = 0;
         for(int i = 0; i<(steder.stoerrelse()-1); i++){
-            steder.hent(i).utgang = steder.hent(i+1);
+            steder.hent(i).leggTilUtgang(steder.hent(i+1));
         }
 
         //test for gjenstander

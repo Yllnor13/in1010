@@ -2,7 +2,6 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Spill {
-    static int runde = 4;
     public static void main(String args[]){
         start();
     }
@@ -16,12 +15,9 @@ public class Spill {
         Terreng terreng = new Terreng();
         Spiller mann = new Spiller(terreng.hentStart(), man);
 
-        Scanner brukerinput = Scanner(System.in);
+        System.out.println("VELG NAVNET DITT");
+        Scanner brukerinput = new Scanner(System.in);
         String navn = brukerinput.nextLine();
-        while(runde > 0){
-            System.out.println("RUNDE: " + runde);
-            mann.nyTrekk();
-            runde--;
-        }
+        mann.nyTrekk();
     }
 }

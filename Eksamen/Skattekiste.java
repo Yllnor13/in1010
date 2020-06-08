@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class Skattekiste {
-    public Lenkeliste<Gjenstand> gjenstander = new Lenkeliste<Gjenstand>();
+    public ArrayList<Gjenstand> gjenstander = new ArrayList<Gjenstand>();
     int maksantall;
     int naa = maksantall;
 
@@ -16,7 +16,7 @@ public class Skattekiste {
 
     public int leggTil(Gjenstand gjen){
         naa++;
-        gjenstander.leggTil(gjen);
+        gjenstander.add(gjen);
         Random tilf = new Random();
         int tilftall = tilf.nextInt(3);
         if(tilftall == 0){
@@ -40,12 +40,19 @@ public class Skattekiste {
             return naa;
         }
         else{
-            naa--;
             Random tilf = new Random();
-            int kistestoerrelse = gjenstander.stoerrelse();
-            int tilftall = tilf.nextInt(kistestoerrelse);
-            gjenstander.fjern(tilftall);
+            int tilftall = tilf.nextInt(gjenstander.size());
+            gjenstander.remove(tilftall);
+            naa--;
             return tilftall;
         }
+    }
+
+    public ArrayList<Gjenstand> hentGjenstander(){
+        return gjenstander;
+    }
+
+    public int hentMaksantall(){
+        return maksantall;
     }
 }

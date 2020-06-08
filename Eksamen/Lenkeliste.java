@@ -86,7 +86,7 @@ public class Lenkeliste<T> implements Liste<T>, Iterable<T> {
 
 
   public T hent(int pos){
-    if(start == null || pos >= stoerrelse() || pos < 0) throw new UgyldigListeIndeks(0);
+    if(start == null || pos >= stoerrelse() || pos < 0) throw new UgyldigListeIndeks(pos);
     int teller = 0;
     Node p = start;
     T svar = null;
