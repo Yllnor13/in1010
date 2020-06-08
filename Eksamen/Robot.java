@@ -16,7 +16,7 @@ public class Robot implements Brukergrensesnitt{
             System.out.println(s);
         }
         Random rand = new Random();
-        int valg = rand.nextInt(alternativer.length);
+        int valg = rand.nextInt(3);
         return valg;
     }
 }

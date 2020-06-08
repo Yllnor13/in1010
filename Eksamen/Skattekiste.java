@@ -41,7 +41,7 @@ public class Skattekiste {
         }
         else{
             Random tilf = new Random();
-            int tilftall = tilf.nextInt(gjenstander.size());
+            int tilftall = tilf.nextInt(gjenstander.size()-1);
             gjenstander.remove(tilftall);
             naa--;
             return tilftall;
