@@ -8,7 +8,7 @@ public class Spiller {
     int formue;
     Skattekiste ryggsekk = new Skattekiste(12);
     String spoersmal = "\nHva oensker du aa gjoere? (skriv tallet) \n";
-    String[] alternativer = {"0. Legge fra en gjenstand.", "1. Ta ut en gjenstand.", "2. Gaa videre.\n"};
+    String[] alternativer = {"0. Legge fra en gjenstand.", "1. Ta ut en gjenstand.", "2. Gaa videre.", "3. Vis statusifo.\n"};
     
     public Spiller(Sted start, Brukergrensesnitt spiller){
         lokasjon = start;
@@ -18,6 +18,7 @@ public class Spiller {
     public void nyTrekk(){
         while(trekk != 0){
             System.out.print(trekk + " trekk som er igjen \n");
+            System.out.println(lokasjon.posisjon);
             int valg = grensesnitt.beOmKommando(spoersmal, alternativer);
             if (valg == 0){
                 if(grensesnitt.getClass() == Terminal.class){
@@ -41,6 +42,7 @@ public class Spiller {
                         ryggsekk.gjenstander.fjern(nyvalgtall);
                         System.out.println("Du solgte din " + navnpaavare + " for " + solgt);
                         formue += solgt;
+                        
                     }
                 }else{
                     Random tilftall = new Random();
@@ -62,19 +64,30 @@ public class Spiller {
                         int solgt = lokasjon.hentRikdom().leggTil(ryggsekk.gjenstander.hent(nyvalgtall));
                         System.out.println("Du solgte din " + navnpaavare + " for " + solgt);
                         formue += solgt;
+                        
                     }
                 }
             }
             else if(valg == 1){
-                int nygjentall = lokasjon.hentRikdom().taUt();
-                Gjenstand nygjen = lokasjon.hentRikdom().gjenstander.hent(nygjentall);
-                lokasjon.hentRikdom().gjenstander.fjern(nygjentall);
-                ryggsekk.gjenstander.leggTil(nygjen);
-                System.out.println("Du fikk " + nygjen.navn + " fra kisten! Den er verdt " + nygjen.verdi);
-
+                if(lokasjon.hentRikdom().gjenstander.stoerrelse() == lokasjon.hentRikdom().maksantall){
+                    System.out.println("kista er full \n");
+                }
+                else{
+                    int nygjentall = lokasjon.hentRikdom().taUt();
+                    Gjenstand nygjen = lokasjon.hentRikdom().gjenstander.hent(nygjentall);
+                    lokasjon.hentRikdom().gjenstander.fjern(nygjentall);
+                    ryggsekk.gjenstander.leggTil(nygjen);
+                    System.out.println("Du fikk " + nygjen.navn + " fra kisten! Den er verdt " + nygjen.verdi);
+                    
+                }
             }
             else if(valg == 2){
+                System.out.println("Du velger aa dra videre");
                 lokasjon = lokasjon.gaaVidere();
+                System.out.println(lokasjon.posisjon);
+            }
+            else if(valg == 3){
+                grensesnitt.giStatus(lokasjon.posisjon);
             }
             else{
                 System.out.println("svaret du skrev inn ble ikke godkjent");
