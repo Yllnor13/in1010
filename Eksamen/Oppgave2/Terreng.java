@@ -87,9 +87,10 @@ public class Terreng {
         }
 
         int pos = 0;
-        for(int i = 0; i<(steder.stoerrelse()-1); i++){
+        for(int i = 0; i<(steder.stoerrelse()-2); i++){
             steder.hent(i).leggTilUtgang(steder.hent(i+1));
         }
+        steder.hent(steder.stoerrelse()-1).leggTilUtgang(steder.hent(0));
 
         //test for gjenstander
         /*
@@ -100,6 +101,8 @@ public class Terreng {
     }
 
     public Sted hentStart(){
-        return steder.hent(0);
+        Random tilf = new Random();
+        int tilfstart = tilf.nextInt(steder.stoerrelse()-1);
+        return steder.hent(tilfstart);
     }
 }
