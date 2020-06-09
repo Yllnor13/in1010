@@ -13,7 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
 import javafx.event.*;
 
-public class SpillFX extends Application{
+public class Spill extends Application{
     private static int trekk = 5;
     private static Pane kulisser = new Pane(); //kulisser
     private static Stage teater; //teater scene slik at jeg kan referere til den senere
