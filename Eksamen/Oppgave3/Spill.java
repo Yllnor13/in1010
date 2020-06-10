@@ -1,5 +1,5 @@
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.util.Scanner; //ting som jeg trengte fra start
 
 import javafx.application.Application;
 import javafx.application.Platform; //er hovedsakelig javafx libraries
@@ -29,26 +29,26 @@ public class Spill extends Application{
         kulisser.setStyle("-fx-background-color: #353535"); //gjoer bakgrunnen graa
 
         Scanner nyscan = new Scanner(System.in);
-        Terminal man = new Terminal(nyscan);
+        Terminal man = new Terminal(nyscan); //lagrer scanner og terminal
 
         
-        Terreng terreng = new Terreng();
-        Spiller mann = new Spiller(terreng.hentStart(), man);
+        Terreng terreng = new Terreng();//lager terreng
+        Spiller mann = new Spiller(terreng.hentStart(), man); //lager spiller
 
-        System.out.println("VELG NAVNET DITT");
+        System.out.println("VELG NAVNET DITT"); //printer at bruker skal velge navn
         Scanner brukerinput = new Scanner(System.in);
-        String navn = brukerinput.nextLine();
-        while (trekk>0){
-            System.out.print("\n" + trekk + " trekk som er igjen \n");
-            int sjekkomtrekk = mann.nyTrekk();
-            if(sjekkomtrekk < 3){
-                trekk--;
+        String navn = brukerinput.nextLine(); //lar bruker skrive
+        while (trekk>0){ //om det er trekk igjen
+            System.out.print("\n" + trekk + " trekk som er igjen \n"); //si hvor mange trekk som er igjen
+            int sjekkomtrekk = mann.nyTrekk(); //ny trekk
+            if(sjekkomtrekk < 3){//sjekker hva som blir returnert, siden ikke alle trekk skal ta trekk
+                trekk--; //senk mengder med trekk
             }
         }
 
 
-        status = new Text(mann.sluttsum()); //status tekst
-        status.setFill(Color.WHITE);
+        status = new Text(mann.sluttsum()); //status tekst blir lagt ut her
+        status.setFill(Color.WHITE); //teksten skal vaere hvit
         status.setX(10);  status.setY(10);
         status.setFont(new Font(15));
 
@@ -57,7 +57,7 @@ public class Spill extends Application{
         stoppknapp.setTextFill(Color.WHITE);
         stoppknapp.setLayoutX(100);  stoppknapp.setLayoutY(50);
 	    Stoppbehandler stopp = new Stoppbehandler();
-        stoppknapp.setOnAction(stopp);
+        stoppknapp.setOnAction(stopp); //knappen skal avslutte greia
 
         kulisser.getChildren().add(stoppknapp);
         kulisser.getChildren().add(status);

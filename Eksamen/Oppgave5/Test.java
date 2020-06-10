@@ -10,17 +10,20 @@ public class Test {
         Robot robert = new Robot();
         System.out.println("sjekk1");
 
+        String cringe = "navn";
+
         Scanner nyscan = new Scanner(System.in);
         Terminal man = new Terminal(nyscan);
         System.out.println("sjekk1");
 
         
-        Terreng testter = new Terreng();
-        Spiller rob = new Spiller(testter.hentStart(), robert);
+        VeivalgTerreng testter = new VeivalgTerreng();
+        VeivalgSpiller rob = new VeivalgSpiller(robert, testter.hentStart(), cringe);
         rob.nyTrekk();
         System.out.println("sjekk1");
 
-        Spiller mann = new Spiller(testter.hentStart(), man);
+        VeivalgSpiller mann = new VeivalgSpiller(man, testter.hentStart(), cringe);
+        Sted nysted = testter.hentStart();
         mann.nyTrekk();
         System.out.println("sjekk1");
     }

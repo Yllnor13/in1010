@@ -15,12 +15,13 @@ public class Test {
         System.out.println("sjekk1");
 
         
-        Terreng testter = new Terreng();
-        Spiller rob = new Spiller(testter.hentStart(), robert);
+        VeivalgTerreng testter = new VeivalgTerreng();
+        VeivalgSpiller rob = new VeivalgSpiller(robert, testter.hentStart());
         rob.nyTrekk();
         System.out.println("sjekk1");
 
-        Spiller mann = new Spiller(testter.hentStart(), man);
+        VeivalgSpiller mann = new VeivalgSpiller(man, testter.hentStart());
+        Sted nysted = testter.hentStart();
         mann.nyTrekk();
         System.out.println("sjekk1");
     }
