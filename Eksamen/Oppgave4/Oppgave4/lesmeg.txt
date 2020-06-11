@@ -1,0 +1,7 @@
+samme greie gjelder som tidligere, om det kommer error(nullpointer), kjør spill igjen 
+
+på datastruktur tegninga
+
+jeg lagde ikke Veivalg versjoner, siden det ikke spesifiserte det
+
+hvordan lista med steder refererer til hverandre er litt rart, men bare lat som om de valgte tilfeldivis hverandre

@@ -1,0 +1,1 @@
+Om det blir error (nullpointer) da du kjører spill, bare kjør det igjen. noenganger så funker det ikke
