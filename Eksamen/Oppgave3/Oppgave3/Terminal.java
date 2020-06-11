@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class Terminal implements Brukergrensesnitt{ //implementerer brukergrensesnitt
+    int trekk = 0;
     Scanner leser = null;
 
 
